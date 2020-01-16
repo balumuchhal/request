@@ -18,6 +18,7 @@ class ViewController: VC {
         super.viewDidLoad()
         get()
         post()
+        upload()
     }
     
     
@@ -31,7 +32,7 @@ class ViewController: VC {
     func get() {
         let req:Request = Request()
         let param = ["page":"2"]
-        req.getResponse(url: url, parameters: param, method: req.get, completionHandler: { data,response,error in
+        req.getResponse(url: url, parameters: param, httpMethod: .get, completionHandler: { data,response,error in
             print(response)
         })
     }
@@ -39,9 +40,18 @@ class ViewController: VC {
     //POST REQUEST
     func post() {
         let param = ["name":"morpheus",
-                     "job":"leader"]
+                     "type":"leader"]
         let req:Request = Request()
-        req.getResponse(url: url, parameters: param, method: req.post, completionHandler: { data,response,error in
+        req.getResponse(url: url, parameters: param, httpMethod: .post, completionHandler: { data,response,error in
+            print(response)
+        })
+    }
+    //post using multipart
+    func upload() {
+        let data = UIImage(named: "01")!.jpegData(compressionQuality: 1.0)!
+        let params:[String:Any]=["first_name": "Bm","picture_data":data]
+        let req:Request = Request()
+        req.POST(url: url, parameters: params, completionHandler: { data,response,error in
             print(response)
         })
     }
